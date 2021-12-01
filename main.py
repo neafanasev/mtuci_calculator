@@ -60,13 +60,17 @@ class Calculator(QWidget):
         self.input.setText(line + param)
 
     def _operation(self, op):
-        s = '1234567890.'
-        if all([(i in s) for i in self.input.text()]) and self.input.text().count('.') <= 1:
-            self.num_1 = float(self.input.text())
-            self.op = op
-            self.input.setText("")
-        else:
-            self.input.setText("Неверынй формат числа")
+        try:
+            s = '1234567890.'
+            if all([(i in s) for i in self.input.text()]) and self.input.text().count('.') <= 1:
+                self.num_1 = float(self.input.text())
+                self.op = op
+                self.input.setText("")
+            else:
+                self.input.setText("Неверынй формат числа")
+        except:
+            self.input.setText('Сначала введите число, а потом операцию')
+
 
     def _clear(self):
         self.input.setText('')
