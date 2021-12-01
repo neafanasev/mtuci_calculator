@@ -54,17 +54,19 @@ class Calculator(QWidget):
         self.b_0.clicked.connect(lambda: self._button("0"))
         self.b_dot.clicked.connect(lambda: self._button("."))
 
+
     def _button(self, param):
         line = self.input.text()
         self.input.setText(line + param)
 
     def _operation(self, op):
-        try:
+        s = '1234567890.'
+        if all([(i in s) for i in self.input.text()]) and self.input.text().count('.') <= 1:
             self.num_1 = float(self.input.text())
             self.op = op
             self.input.setText("")
-        except:
-            self.input.setText("Сперва введите число, а только потом операцию. Воспользуйтесь кнопкой очистки C")
+        else:
+            self.input.setText("Неверынй формат числа")
 
     def _clear(self):
         self.input.setText('')
@@ -74,19 +76,23 @@ class Calculator(QWidget):
 
     def _result(self):
         try:
-            self.num_2 = float(self.input.text())
-            if self.op == "+":
-                self.input.setText(str(self.num_1 + self.num_2))
-            if self.op == "-":
-                self.input.setText(str(self.num_1 - self.num_2))
-            if self.op == "*":
-                self.input.setText(str(self.num_1 * self.num_2))
+            s = '1234567890.'
+            if all([(i in s) for i in self.input.text()]) and self.input.text().count('.') <= 1:
+                self.num_2 = float(self.input.text())
+                if self.op == "+":
+                    self.input.setText(str(self.num_1 + self.num_2))
+                if self.op == "-":
+                    self.input.setText(str(self.num_1 - self.num_2))
+                if self.op == "*":
+                    self.input.setText(str(self.num_1 * self.num_2))
 
-            if self.op == "/":
-                if self.num_2 == "0":
-                    self.input.setText(str('cant devide by 0'))
-                else:
-                    self.input.setText(str(self.num_1 / self.num_2))
+                if self.op == "/":
+                    if float(self.num_2) == 0.0:
+                        self.input.setText(str('cant devide by 0'))
+                    else:
+                        self.input.setText(str(self.num_1 / self.num_2))
+            else:
+                self.input.setText('Некорректный формат числа')
         except:
             self.input.setText('Вы не ввели второе число. Воспользуйтесь кнопкой очистки C')
 
